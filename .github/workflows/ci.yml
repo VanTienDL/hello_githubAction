@@ -39,6 +39,7 @@ jobs:
       - name: Run lint
         run: flake8 app.py
   build:
+    runs-on: ubuntu-latest
     needs: [test,lint]
     steps:
       - name: Notify
