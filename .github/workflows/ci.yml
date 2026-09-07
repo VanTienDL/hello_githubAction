@@ -42,24 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test,lint]
     steps:
-      - name: Notify
-        run: echo "Da test va lint xong, gio toi build"
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Clean first
-        run: sudo apt-get remove docker.io docker-compose docker-compose-v2 podman-docker containerd runc
+    - name: Build container
+      run: docker build -t my-python-app .
 
-      - name: Setup repository
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ca-certificates curl
-      
-      - name: Install docker engine
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-      - name: Build container
-        run: docker build -t my-python-app .
-        
-      - name: Run container
-        run: docker run --rm my-python-app
+    - name: Run container
+      run: docker run --rm my-python-app
